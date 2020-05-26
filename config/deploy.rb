@@ -2,7 +2,7 @@
 lock "~> 3.14.0"
 
 set :application, "pride_skills"
-set :repo_url, "git@github.com:dylangt0512@gmail.com/pride_skills.git"
+set :repo_url, "git@github.com:Kaito0597/pride_skills.git"
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp

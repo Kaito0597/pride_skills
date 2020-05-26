@@ -50,5 +50,5 @@ test:
 production:
   <<: *default
   database: pride_skills_production
-  username: pride_skills
-  password: <%= ENV['PRIDE_SKILLS_DATABASE_PASSWORD'] %>
+  username: dylan
+  password: <%= ENV['DATABASE_PASSWORD'] %>
