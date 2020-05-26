@@ -1,0 +1,124 @@
+<div style="display: flex">
+    <% if !@characters.blank? %>
+        <div>
+            <h1 style="text-align: center; font-weight: 600">Skills</h1>
+            <div style="display: flex;">
+                <div id="attributes" style="display: flex; flex-direction: column; justify-content: space-evenly">
+                    <% @ability_scores.each do |ability_score| %>
+                        <div style="display: flex; flex-direction: column; align-items: center">
+                            <h1 class="attr_head" style="margin: 0;"><%= ability_score.abbreviation %></h1>
+                            <h2 style="margin: 0;"><%= ability_score.score %></h2>
+                        </div>
+                    <% end %>
+                    <div class="btn-grp">
+                        <a id="edit-btn" href="<%= config_path %>" class="mui-btn mui-btn--primary">Edit</a>
+                        <%= link_to "Logout", session_path(@user), method: :delete, id: "logout-btn", class: "mui-btn mui-btn--primary" %>
+                    </div>
+                </div>
+                <div class="container" style="width: 1000px; height: 700px; overflow: auto;">
+                    <table class="mui-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% @skills.each do |skill| %>
+                                <tr>
+                                    <td><%= skill.name %></td>
+                                    <td><%= skill.score %></td>
+                                </tr>
+                            <% end %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    <% end %>
+    <div style="display: flex; flex-direction: column">
+        <h1 style="text-align: center; font-weight: 600">Characters</h1>
+        <div class='container' style="height: 700px; width: 250px; display: flex; flex-direction: column-reverse">
+            <a href= "<%= new_character_path %>" class="mdc-button mdc-button--raised" style="width: 100%">
+                <div class="mdc-button__ripple"></div>
+                <span class="mdc-button__label">Create Character</span>
+            </a>
+            <div style="height: 100%; overflow-y: auto; overflow-x: hidden;">
+                <% @characters.each do |character| %>
+                    <button onClick="changeCharacter(&quot;<%= change_character_path(:id => character.id) %>&quot;)" class="character-item <%= @user.selected_character_id == character.id ? "character-item-current" : nil %>" style="border-radius: 6px; background-color: #e6ebed; width: 95%; margin-right: 5px; padding-top: 15px; margin-bottom: 15px">
+                        <h3 style="margin: 0 15px; font-weight: 500; text-align: left"><%= character.name %></h3>
+                        <div style="display: flex">
+                            <h4 style="margin-left: 15px"><%= character.class_name %></h4>
+                            <h4 style="margin-left: 15px"><%= character.level %></h4>
+                        </div>
+                    </button>
+                    <div id="character-<%= character.id %>-delete" onClick="showModal()" style="width: 100%; position: relative; bottom: 62px; right: 20px">
+                        <span class="material-icons char-delete" style="margin-top: 10px; float: right; height: 0">delete</span>
+                    </div>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% @characters.each do |character| %>
+<div id='mdc-dialog-char-<%= character.id %>' class="mdc-dialog">
+  <div class="mdc-dialog__container">
+    <div class="mdc-dialog__surface"
+      role="alertdialog"
+      aria-modal="true"
+      aria-labelledby="my-dialog-title"
+      aria-describedby="my-dialog-content">
+      <div class="mdc-dialog__content modal-info" id="my-dialog-content" style="max-width: 300px;">
+        Are you sure you'd like to delete <strong style="font-weight: 600"><%= character.name %></strong>?
+      </div>
+      <div class="mdc-dialog__actions">
+        <button id="modal-cancel-btn-<%= character.id %>" type="button" class="mdc-button mdc-dialog__button" style="font-weight: 500" data-mdc-dialog-action="cancel">
+          <div class="mdc-button__ripple"></div>
+          <span class="mdc-button__label">Cancel</span>
+        </button>
+        <button onClick="deleteCharacter(&quot;<%= character_path(:id => character.id) %>&quot;)" style="font-weight: 500" id="modal-confirm-btn-<%= character.id %>" type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="discard">
+          <div class="mdc-button__ripple"></div>
+          <span class="mdc-button__label">Delete</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="mdc-dialog__scrim"></div>
+</div>
+<% end %>
+
+<%= javascript_pack_tag 'deleteChar' %>
+
+<script>
+    <% @characters.each do |character| %>
+        $('#character-<%= character.id %>-delete').on('click', function () {
+            $('#mdc-dialog-char-<%= character.id %>').addClass('mdc-dialog--open')
+        })
+
+        $('#modal-cancel-btn-<%= character.id %>').on('click', function () {
+            $('#mdc-dialog-char-<%= character.id %>').removeClass('mdc-dialog--open')
+        })
+    <% end %>
+</script>
+
+<script>
+    function changeCharacter (url) {
+        $.ajax({
+                url: url,
+                success: function (response) {
+                    window.location = "<%= root_path %>"
+                }
+            });
+    }
+
+    function deleteCharacter (url) {
+        $.ajax ({
+            method: "DELETE",
+            url: url,
+            success: function(response) {
+                window.location = "<%= root_path %>"
+            }
+        })
+    }
+</script>

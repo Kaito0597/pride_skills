@@ -1,0 +1,184 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+ /* @import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap'); */
+
+@font-face {
+    font-family: 'Circular Std';
+    src: url('/fonts/CircularStd-Medium.ttf')
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif !important;
+  background-color: #e6ebed !important;
+  display: grid;
+  grid-template-rows: auto;
+  justify-items: center;
+  align-items: center;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: gray;
+  border-radius: 6px;
+}
+
+td {
+  font-weight: 500;
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+#submit-btn {
+  box-shadow: none;
+  width: 100%;
+  height: 50px;
+  border-radius: 6px;
+  position: relative;
+  bottom: 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.75;
+  background-color: #21B568;
+  letter-spacing: 0.02857em;
+  color: white;
+}
+
+#submit-btn:visited {
+  color: white;
+}
+
+#edit-btn {
+  box-shadow: none;
+  width: 64.094px;
+  margin: 0 initial;
+}
+
+#edit-btn:visited {
+  color: white;
+}
+
+#logout-btn {
+  box-shadow: none;
+  /* width: 64.094px; */
+  margin-left: 0;
+  background-color: #21B568;
+}
+
+#logout-btn:visited {
+  color: white;
+}
+
+/* #save-btn:visited {
+  color: white;
+} */
+
+#attributes {
+  margin: 40px 20px;
+}
+
+.btn-grp {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  width: 400px;
+  height: 300px;
+  background: #FFFFFF;
+  box-shadow: 0 5px 15px 0 rgba(50,50,93,0.05), 0 15px 35px 0 rgba(50,50,93,0.08);
+  border-radius: 6px;
+  margin: 40px 20px;
+  padding: 40px;
+}
+
+.login-form {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.text-field > label {
+  /* font-weight: 600 !important; */
+  font-size: large !important;
+  overflow: hidden;
+}
+
+.login-link-grp {
+  display: flex;
+  justify-content: space-between;
+}
+
+.login-link {
+  color: #93A4AC;
+
+  font-size: 18px;
+  font-weight: 500;
+  /* margin-bottom: 40px; */
+}
+
+.login-link:hover {
+  cursor: pointer;
+  text-decoration: none;
+  color: #93A4AC;
+  background-color: white;
+}
+
+.attr_head {
+  font-weight: 500;
+} 
+
+.error-container {
+  display: grid;
+  grid-template-rows: auto;
+  justify-items: center;
+  align-items: center;
+}
+
+.character-item {
+  border: 2px solid transparent;
+}
+
+.character-item:hover {
+  cursor: pointer;
+  border: 2px solid #39a1f4;
+}
+
+.character-item-current {
+  border: 2px solid #39a1f4;
+}
+
+.char-delete:hover {
+  color: #E53935;
+  cursor: pointer;
+}
+
+.modal-info {
+  font-family: 'Montserrat' !important;
+  font-weight: 500 !important;
+}

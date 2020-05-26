@@ -1,0 +1,270 @@
+<div>
+    <h1 style="text-align: center; font-weight: 600">Configuration</h1>
+    <div style="display: flex">
+        <div class="container" style="height: 700px; width: 1000px; overflow: auto;">
+            <div id="attributes" style="display: flex; justify-content: space-evenly; margin: 0;">
+                <% @ability_scores.each do |ability_score| %>
+                    <div style="display: flex; flex-direction: column; align-items: center">
+                        <h1 class="attr_head" style="margin: 0;"><%= ability_score.abbreviation %></h1>
+                        <div class="mui-textfield" style="width: 50px">
+                            <input id="<%= ability_score.abbreviation %>-score" name="ability_score" type="number" style="text-align: center; font-weight: 500; font-size: 18px; border-radius: 6px; border: solid 1px;" value="<%= ability_score.score %>">
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+            <table class="mui-table">
+                <thead>
+                    <tr>
+                        <th style="width: 150px">Name</th>
+                        <th>Mod<th>
+                        <th>Score</th>
+                        <th>Points</th>
+                        <th style="width: 10px">Expertise</th>
+                        <th style="width: 10px">Proficiency</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% @skills.each do |skill| %>
+                        <tr>
+                            <td><%= skill.name %></td>
+                            <td><%= skill.ability_score %><td>
+                            <td id="<%= skill.id %>-score"><%= skill.score %></td>
+                            <td>
+                                <div class="mui-textfield" style="width: 50px; margin: 0; padding: 0">
+                                    <input id="<%= skill.id %>-points-invested" name="<%= skill.id %>-points-input" type="number" style="text-align: center; font-weight: 500; border-radius: 6px; border: solid 1px;" value="<%= skill.points_invested %>">
+                                </div>
+                            </td>
+                            <td>
+                                <input id="<%= skill.id %>-expertise" type="checkbox" <%= skill.expertise ? "checked" : nil %>>
+                            </td>
+                            <td>
+                                <input id="<%= skill.id %>-prof" type="checkbox" <%= skill.proficiency ? "checked" : nil %>>
+                            </td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
+        </div>
+        <div class="container" style="height: 700px; width: 200px; display: flex; flex-direction: column-reverse">
+            <!-- <button id="save-btn" class="mui-btn mui-btn--primary">Save</button> -->
+            <button id="save-btn" class="mdc-button mdc-button--raised">
+                <div class="mdc-button__ripple"></div>
+                <span class="mdc-button__label">Save</span>
+            </button>
+            <div style="height: 100%">
+                <div style="margin-bottom: 10px">
+                    <h2 style="width: 100%; text-align: center; font-weight: 500">Class</h2>
+                    <div style="display: flex;">
+                        <div style="border-radius: 6px; background-color: #e6ebed; width: 165px; height: 36px; margin-right: 5px;">
+                            <h3 id="class-header" style="margin: 0; text-align: center; margin-top: 4px;"><%= @character.class_name %></h3>
+                        </div>
+                        <div class="mui-dropdown" style="width:20px">
+                            <button class="mui-btn mui-btn--primary" data-mui-toggle="dropdown" style="padding-left: 10px; padding-right: 10px; margin: 0">
+                                <span class="mui-caret"></span>
+                            </button>
+                            <ul class="mui-dropdown__menu">
+                                <% @class_dict.each do |name, bonus| %>
+                                    <% name = name.to_s.underscore.humanize.titleize %>
+                                    <li><a href="javascript:updateClassLabel(&quot;<%= name %>&quot;)"><%= name %></a></li>
+                                <% end %>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flow-root">
+                    <h2 style="margin: 0; float: left;">Level</h2>
+                    <div class="mui-textfield" style="width: 50px; margin: 0; padding: 0; float: right;">
+                        <input id="char-level" type="number" style="text-align: center; font-weight: 500; border-radius: 6px; border: solid 1px;" value="<%= @character.level %>">
+                    </div>
+                </div>
+                <div class="mui-checkbox">
+                    <label>
+                        <input id="joat_checkbox" name="joat_check" type="checkbox" <%= @character.jack_of_all_trades ? "checked" : nil %>>
+                        <div style="float: right; font-weight: 500;">Jack of all Trades</div>
+                    </label>
+                </div>
+                <div style="height: 460px; display: flex; flex-direction: column-reverse">
+                    <div style="display: flow-root">
+                        <h2 style="margin: 0; float: left;">Skill Points</h2>
+                        <div class="mui-textfield" style="width: 50px; margin: 0; padding: 0; float: right;">
+                            <input id="skill-points" type="number" style="text-align: center; font-weight: 500; border-radius: 6px; border: solid 1px;" value="<%= @character.skill_points %>">
+                        </div>
+                    </div>
+                </div>
+            </div>  
+        </div>
+    </div>
+</div>
+
+<script>
+    mdc.ripple.MDCRipple.attachTo(document.querySelector('#save-btn'));
+
+    <% @skills.each do |skill| %>
+        $("#<%= skill.id %>-points-invested").on('focusin', function(){
+            $(this).data('val', $(this).val());
+        });
+
+        $("#<%= skill.id %>-points-invested").change(function () {
+
+            //Current and previous value of the field
+            var prev = parseInt($(this).data('val'));
+            var current = parseInt($(this).val());
+
+            var currentLevel = parseInt($('#char-level').val())
+            var maxRank = Math.ceil(currentLevel / 2) + 2
+            var skillPoints = $('#skill-points')
+            var skillPointsVal = parseInt(skillPoints.val())
+            var jackOfAllTrades = $('#joat_checkbox').is(':checked')
+            
+            var abilityScoreVal = parseInt($('#<%= skill.ability_score %>-score').val())
+
+            var skillScore = $('#<%= skill.id %>-score')
+            var skillScoreVal = parseInt(skillScore.html())
+
+            var skillExpertise = $('#<%= skill.id %>-expertise').is(':checked')
+            var skillProf = $('#<%= skill.id %>-prof').is(':checked')
+
+            var expertiseBonus = 0
+            var proficiencyBonus = 0
+            var jackOfAllTradesBonus = 0
+            
+            if ((current - prev) > skillPointsVal) {
+                $(this).val(prev)
+            } else {
+
+                if (current > maxRank) {
+                    $(this).val(prev)
+                } else {
+
+                    //Remove Jack of all Trades bonus if previous value is 0
+                    if (prev == 0 && jackOfAllTrades == true) {
+                        skillScore.html(skillScoreVal - 3)
+                    }
+
+                    if (skillExpertise == true){
+                        if (skillProf == true) {
+                            expertiseBonus = Math.trunc((current + 3) / 3)
+                        } else {
+                            expertiseBonus = Math.trunc(current / 3)
+                        }
+                    }
+
+                    if (skillProf == true) {
+                        proficiencyBonus = 3
+                        if (current > (maxRank - 3)) {
+                            if (prev != (maxRank - 3)) {
+                                skillPoints.val(skillPointsVal + (current - (maxRank - 3)))
+                            }
+                            $(this).val(maxRank - 3)
+                        } else {
+                            if (!isNaN(prev)) {
+                                skillPoints.val(skillPointsVal - (current - prev))
+                            }
+                        }
+                    } else {
+                        if (!isNaN(prev)) {
+                            skillPoints.val(skillPointsVal - (current - prev))
+                        }
+                    }
+
+                    if (current == 0 && jackOfAllTrades == true) {
+                        jackOfAllTradesBonus = 3
+                    }
+
+                    skillScore.html(Math.floor(((abilityScoreVal - 10) / 2)) + current + proficiencyBonus + expertiseBonus + jackOfAllTradesBonus)
+
+                    $(this).data('val', $(this).val());
+                }
+            }
+        })
+
+        $('#<%= skill.id %>-expertise').change(function () {
+            $("#<%= skill.id %>-points-invested").trigger("change");
+        })
+
+        $('#<%= skill.id %>-prof').change(function () {
+            $("#<%= skill.id %>-points-invested").trigger("change");
+        })
+
+    <% end %>
+
+    <% @ability_scores.each do |ability_score| %>
+        $('#<%= ability_score.abbreviation %>-score').change(function () {
+            <% @skills.each do |skill| %>
+                <% if skill.ability_score == ability_score.abbreviation %>
+                    $("#<%= skill.id %>-points-invested").trigger("change");
+                <% end %>
+            <% end %>
+        })
+    <% end %>
+
+    $('#save-btn').click(function () {
+        $(this).prop("disabled",true);
+        $(this).html("Saving...")
+        var patch = {
+            <% @skills.each do |skill| %>
+                "<%= skill.name %>-score": $('#<%= skill.id %>-score').html(),
+                "<%= skill.name %>-points": $('#<%= skill.id %>-points-invested').val(),
+                "<%= skill.name %>-expertise": $('#<%= skill.id %>-expertise').is(':checked'),
+                "<%= skill.name %>-prof": $('#<%= skill.id %>-prof').is(':checked'),
+            <% end %>
+            <% @ability_scores.each do |ability_score| %>
+                "<%= ability_score.abbreviation %>": $('#<%= ability_score.abbreviation %>-score').val(),
+            <% end %>
+            "Class": $('#class-header').html(),
+            "SkillPoints": $('#skill-points').val(),
+            "Level": $('#char-level').val(),
+            "joat": $('#joat_checkbox').is(':checked')
+        }
+
+        $.ajax({
+            type: 'PATCH',
+            url: '<%= character_path(@character) %>',
+            data: patch,
+            dataType: 'JSON',
+            success: function (response) {
+                window.location = "<%= root_path %>"
+            }
+        });
+    })
+
+    function updateClassLabel(name) {
+        document.getElementById("class-header").innerHTML = name
+    }
+
+    $("#char-level").on('focusin', function(){
+        $(this).data('val', $(this).val());
+    });
+
+    $('#char-level').on('change', function () {
+        var prev = $(this).data('val');
+        var current = $(this).val();
+
+        <% @class_dict.each do |name, bonus| %>
+            if ($('#class-header').html() == "<%= name.to_s.underscore.humanize.titleize %>") {
+                $('#skill-points').val(parseInt($('#skill-points').val()) + (<%= bonus %> * (current - prev)))
+            }
+        <% end %>
+
+        $(this).data('val', $(this).val());
+
+    })
+
+    var checkbox = document.querySelector("input[name=joat_check]");
+    
+    checkbox.addEventListener( 'change', function() {
+        if(this.checked) {
+            <% @skills.each do |skill| %>
+                if (parseInt(document.getElementById("<%= skill.id %>-points-invested").value) == 0) {
+                    document.getElementById("<%= skill.id %>-score").innerHTML = parseInt(document.getElementById("<%= skill.id %>-score").innerHTML) + 3
+                }
+            <% end %>
+        } else {
+            <% @skills.each do |skill| %>
+                if (parseInt(document.getElementById("<%= skill.id %>-points-invested").value) == 0) {
+                    document.getElementById("<%= skill.id %>-score").innerHTML = parseInt(document.getElementById("<%= skill.id %>-score").innerHTML) - 3
+                }
+            <% end %>
+        }
+    });
+</script>
