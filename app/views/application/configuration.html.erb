@@ -141,14 +141,6 @@
                         skillScore.html(skillScoreVal - 3)
                     }
 
-                    if (skillExpertise == true){
-                        if (skillProf == true) {
-                            expertiseBonus = Math.trunc((current + 3) / 3)
-                        } else {
-                            expertiseBonus = Math.trunc(current / 3)
-                        }
-                    }
-
                     if (skillProf == true) {
                         proficiencyBonus = 3
                         if (current > (maxRank - 3)) {
@@ -156,6 +148,7 @@
                                 skillPoints.val(skillPointsVal + (current - (maxRank - 3)))
                             }
                             $(this).val(maxRank - 3)
+                            current = parseInt($(this).val())
                         } else {
                             if (!isNaN(prev)) {
                                 skillPoints.val(skillPointsVal - (current - prev))
@@ -167,9 +160,24 @@
                         }
                     }
 
+                    if (skillExpertise == true){
+                        if (skillProf == true) {
+                            expertiseBonus = Math.trunc((current + 3) / 3)
+                        } else {
+                            expertiseBonus = Math.trunc(current / 3)
+                        }
+                    }
+
                     if (current == 0 && jackOfAllTrades == true) {
                         jackOfAllTradesBonus = 3
                     }
+
+                    console.log('--------------')
+                    console.log(current)
+                    console.log(proficiencyBonus)
+                    console.log(expertiseBonus)
+                    console.log(jackOfAllTradesBonus)
+                    console.log('--------------')
 
                     skillScore.html(Math.floor(((abilityScoreVal - 10) / 2)) + current + proficiencyBonus + expertiseBonus + jackOfAllTradesBonus)
 

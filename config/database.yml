@@ -1,2 +1,9 @@
+development:
+  adapter: mysql2
+  encoding: utf8mb4
+  username: <%= Rails.application.credentials.mysql[:username] %>
+  password: <%= Rails.application.credentials.mysql[:password] %>
+  database: pride_skills_development
+
 production:
   url: <%= ENV['DATABASE_URL'] %>
