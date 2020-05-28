@@ -101,6 +101,10 @@ td {
   margin: 40px 20px;
 }
 
+#create-char-btn {
+  text-decoration: none;
+}
+
 .btn-grp {
   display: flex;
   flex-direction: column;

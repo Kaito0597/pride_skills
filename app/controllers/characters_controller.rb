@@ -71,7 +71,11 @@ class CharactersController < ApplicationController
         user = User.find_by(:id => session[:user_id])
         character.destroy
         if character.id == user.selected_character_id
-            user.update(selected_character_id: user.characters.first.id)
+            if user.characters.first != nil
+                user.update(selected_character_id: user.characters.first.id)
+            else
+                user.update(selected_character_id: nil)
+            end
         end
     end
 
