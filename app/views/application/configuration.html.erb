@@ -174,13 +174,6 @@
                         jackOfAllTradesBonus = 3
                     }
 
-                    console.log('--------------')
-                    console.log(current)
-                    console.log(proficiencyBonus)
-                    console.log(expertiseBonus)
-                    console.log(jackOfAllTradesBonus)
-                    console.log('--------------')
-
                     skillScore.html(Math.floor(((abilityScoreVal - 10) / 2)) + current + proficiencyBonus + expertiseBonus + jackOfAllTradesBonus)
 
                     $(this).data('val', $(this).val());
