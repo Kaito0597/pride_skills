@@ -1,0 +1,75 @@
+<div style="display: flex">
+    <div>
+        <h1 class="container-header" style="display: flex;">
+            <%= link_to "Back", root_path, :id => "back-btn", :class => 'mui-btn mui-btn--primary' %>
+            <div style="width: 100%">
+                About
+            </div>
+        </h1>
+        <div class="container" style="height: 700px; width: 1000px; overflow-y: auto">
+            <p>
+                Characters no longer gain proficiency in skills. Instead, they gain skill points every level equal to the number of proficiencies 
+                they would normally have. For convenience, those numbers are:<br>
+                <br>
+                    Barbarian - 2<br>
+                    Bard - 3<br>
+                    Cleric - 2<br>
+                    Druid - 2<br>
+                    Fighter - 2<br>
+                    Monk - 2<br>
+                    Paladin - 2<br>
+                    Ranger - 3<br>
+                    Rogue - 4<br>
+                    Sorcerer - 2<br>
+                    Warlock - 2<br>
+                    Wizard - 2<br>
+                    <br>
+                    Artificer - 3<br>
+                    Blood Hunter - 2<br>
+                    Alchemist - 3<br>
+                    Summoner - 2<br>
+                <br>
+                Players start at 0 in every skill, and each point used increases that skill’s rank by 1. Ability score modifiers are applied as normal. 
+                You cannot have more points in a skill than ½ your level (rounded up) + 2. For example, if you are level 9, the equation is (0.5 * 9) + 2 = 6.5, 
+                which gets rounded up to 7. This makes the maximum rank in a skill, at level 20, 12 points. If you have a +5 modifier for the related ability score, 
+                your maximum skill rank is 17.<br>
+                <br>
+                <strong>Expertise:</strong> Expertise grants a multiplier to your skill point of 1⅓. So, for every 3 skill points you put into a skill, you gain one extra rank in 
+                that skill. For example, if you have 9 skill points in a skill that has expertise, your effective skill rank is 12, 
+                before adding ability score modifiers. This makes the maximum possible skill rank 21 after ability score modifiers.<br>
+                <br>
+                <strong>Jack of all Trades:</strong> Jack of all Trades grants a +3 bonus to all skills in which you have used NO points.<br>
+                <br>
+                <strong>Backgrounds & Other Bonuses:</strong> Backgrounds that grant proficiencies in skills instead grant a bonus of +3 to those skills. 
+                This DOES count towards the maximum number of points in those skills, but if it exceeds your skill rank maximum, it is not reduced. 
+                You simply cannot put any more points into that skill until your skill point maximum increases high enough to allow it (+4 or higher in most cases). 
+                Bonus proficiencies granted by class or racial features act in the same way.<br>
+                <br>
+                <strong>Other Proficiencies:</strong> Tool, weapon, armor, and language proficiencies granted at character creation function as normal. 
+                Additionally, a player may spend 4 skill points to gain one of these proficiencies during downtime, or when they gain a level in any class.<br>
+            </p>
+        </div>
+    </div>
+    <div>
+        <h1 class="container-header">Links</h1>
+        <div class="container" style="height: 700px; width: 250px">
+            <a id="btn" href="https://github.com/Kaito0597/pride_skills" class="mui-btn mui-btn--primary" style="width: 100%; background-color: #24292e; padding: 0; padding-top: 6px">
+                <svg aria-hidden="true" class="indexesm__StyledOcticon-sc-1ao7p5-27 xrdzL" height="30" role="img" viewBox="0 0 16 16" 
+                width="30" style="display:inline-block;fill:currentColor;user-select:none;vertical-align:text-bottom; float: left; margin-left: 6px;">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+                <div style="width: 100%; position: absolute; top: 3px; text-transform: none">
+                    Github
+                </div>
+            </a>
+            <a id="btn" href="http://cash.app/$DylanThielking" class="mui-btn mui-btn--primary" style="width: 100%; background-color: #0bb634; padding: 0; padding-top: 2px; height: 40px">
+                <span class="material-icons" style="float: left; font-size: 34px; margin-left: 3px; margin-top: 2px;">
+                    monetization_on
+                </span>
+                <div style="width: 100%; position: absolute; top: 3px; text-transform: none">
+                    Donate
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
