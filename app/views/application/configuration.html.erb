@@ -167,8 +167,10 @@
                             expertiseBonus = Math.trunc(current / 3)
                         }
                     }
+                    
+                    console.log(skillProf)
 
-                    if (current == 0 && jackOfAllTrades == true && skillProf = false) {
+                    if (current == 0 && jackOfAllTrades == true && skillProf == false) {
                         jackOfAllTradesBonus = 3
                     }
 
@@ -191,6 +193,10 @@
         })
 
         $('#<%= skill.id %>-prof').change(function () {
+            $("#<%= skill.id %>-points-invested").trigger("change");
+        })
+
+        $('#joat_checkbox').change(function () {
             $("#<%= skill.id %>-points-invested").trigger("change");
         })
 
@@ -258,21 +264,4 @@
 
     })
 
-    var checkbox = document.querySelector("input[name=joat_check]");
-    
-    checkbox.addEventListener( 'change', function() {
-        if(this.checked) {
-            <% @skills.each do |skill| %>
-                if (parseInt(document.getElementById("<%= skill.id %>-points-invested").value) == 0) {
-                    document.getElementById("<%= skill.id %>-score").innerHTML = parseInt(document.getElementById("<%= skill.id %>-score").innerHTML) + 3
-                }
-            <% end %>
-        } else {
-            <% @skills.each do |skill| %>
-                if (parseInt(document.getElementById("<%= skill.id %>-points-invested").value) == 0) {
-                    document.getElementById("<%= skill.id %>-score").innerHTML = parseInt(document.getElementById("<%= skill.id %>-score").innerHTML) - 3
-                }
-            <% end %>
-        }
-    });
 </script>
