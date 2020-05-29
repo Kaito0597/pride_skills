@@ -14,7 +14,29 @@
         </div>
       <% end %>
 
-      <div class="field text-field mui-textfield">
+      <div class="mdc-text-field mdc-text-field--outlined">
+        <%= form.text_field :username, id: 'username-text-field', class: 'mdc-text-field__input' %>
+        <div class="mdc-notched-outline">
+          <div class="mdc-notched-outline__leading"></div>
+          <div class="mdc-notched-outline__notch">
+            <%= form.label :username, nil, id: 'username-label', class: 'mdc-floating-label', style: 'background-color: white; padding-left: 5px; padding-right: 5px;'%>
+          </div>
+          <div class="mdc-notched-outline__trailing"></div>
+        </div>
+      </div>
+      <div class="mdc-text-field mdc-text-field--outlined">
+        <%= form.password_field :password, id: 'password-text-field', class: 'mdc-text-field__input' %>
+        <div class="mdc-notched-outline">
+          <div class="mdc-notched-outline__leading"></div>
+          <div class="mdc-notched-outline__notch">
+            <%= form.label :password, nil, id: 'password-label', class: 'mdc-floating-label', style: 'background-color: white; padding-left: 5px; padding-right: 5px;'%>
+          </div>
+          <div class="mdc-notched-outline__trailing"></div>
+        </div>
+      </div>
+
+
+      <!-- <div class="field text-field mui-textfield">
         <%= form.label :username %>
         <%= form.text_field :username %>
       </div>
@@ -22,7 +44,7 @@
       <div class="field text-field mui-textfield">
         <%= form.label :password %>
         <%= form.text_field :password, type: "password" %>
-      </div>
+      </div> -->
 
       <div class="actions">
         <%= form.submit value: "Submit", class: "mui-btn mui-btn--primary", id: "submit-btn" %>
@@ -30,3 +52,5 @@
     <% end %>
   </div>
 </div>
+
+<%= javascript_pack_tag 'login_register' %>

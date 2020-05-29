@@ -89,8 +89,6 @@
 </div>
 <% end %>
 
-<%= javascript_pack_tag 'deleteChar' %>
-
 <script>
     <% @characters.each do |character| %>
         $('#character-<%= character.id %>-delete').on('click', function () {

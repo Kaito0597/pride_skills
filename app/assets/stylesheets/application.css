@@ -118,6 +118,10 @@ td {
   box-shadow: none;
 }
 
+.mdc-floating-label {
+  font-family: 'Montserrat', sans-serif !important;
+}
+
 .btn-grp {
   display: flex;
   flex-direction: column;

@@ -1,21 +1,31 @@
 <div>
   <h1 style="text-align: center; font-weight: 600">Login</h1>
   <div class="container">
-    
-    <% flash.each do |type, msg|%>
-      <div class="error-container" style="width: 100%; text-align: center; border-radius: 3px; background-color: #E53935">
-        <h5 style="color: white;"><%= msg %></h5>
+    <%= form_tag '/sessions', class: 'login-form', style: 'display: flex; justify-content: space-between' do %>
+      <% flash.each do |type, msg|%>
+        <div class="error-container" style="width: 100%; text-align: center; border-radius: 3px; background-color: #E53935">
+          <h5 style="color: white;"><%= msg %></h5>
+        </div>
+      <% end %>
+      <div class="mdc-text-field mdc-text-field--outlined">
+        <%= text_field_tag :username, nil, id: 'username-text-field', class: 'mdc-text-field__input' %>
+        <div class="mdc-notched-outline">
+          <div class="mdc-notched-outline__leading"></div>
+          <div class="mdc-notched-outline__notch">
+            <%= label_tag :username, nil, id: 'username-label', class: 'mdc-floating-label', style: 'background-color: white; padding-left: 5px; padding-right: 5px;'%>
+          </div>
+          <div class="mdc-notched-outline__trailing"></div>
+        </div>
       </div>
-    <% end %>
-    
-    <%= form_tag '/sessions', class: 'login-form' do %>
-      <div class="text-field mui-textfield">
-        <%= label_tag :username%>
-        <%= text_field_tag :username %>
-      </div>
-      <div class="text-field mui-textfield">
-        <%= label_tag :password%>
-        <%= password_field_tag :password%>
+      <div class="mdc-text-field mdc-text-field--outlined">
+        <%= password_field_tag :password, nil, id: 'password-text-field', class: 'mdc-text-field__input' %>
+        <div class="mdc-notched-outline">
+          <div class="mdc-notched-outline__leading"></div>
+          <div class="mdc-notched-outline__notch">
+            <%= label_tag :password, nil, id: 'password-label', class: 'mdc-floating-label', style: 'background-color: white; padding-left: 5px; padding-right: 5px;'%>
+          </div>
+          <div class="mdc-notched-outline__trailing"></div>
+        </div>
       </div>
       <div class="login-link-grp">
         <%= link_to "Register", register_path, class: "login-link"  %>
@@ -25,3 +35,5 @@
     <% end %>
   </div>
 </div>
+
+<%= javascript_pack_tag 'login_register' %>
