@@ -16,11 +16,6 @@
 
  /* @import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap'); */
 
-@font-face {
-    font-family: 'Circular Std';
-    src: url('/fonts/CircularStd-Medium.ttf')
-}
-
 html, body {
   margin: 0;
   height: 100%;
@@ -118,8 +113,29 @@ td {
   box-shadow: none;
 }
 
+.date-change-btn {
+  background-color: #21B568 !important;
+}
+
+.date-select-btn {
+  width: 200px;
+}
+
 .mdc-floating-label {
   font-family: 'Montserrat', sans-serif !important;
+}
+
+.mdc-button:hover {
+  text-decoration: none;
+}
+
+.mdc-button__label {
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+#ui-datepicker-div[style] {
+  top: 565px !important;
+  left: 890px !important;
 }
 
 .btn-grp {

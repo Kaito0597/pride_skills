@@ -15,6 +15,7 @@ class CharactersController < ApplicationController
 
         @character = Character.new(character_params)
         @character.user = User.find_by(:id => session[:user_id])
+        @character.game = Game.find_by(:id => User.find_by(:id => session[:user_id]).selected_game_id)
 
         if @character.save!
             skills_records = []
@@ -33,7 +34,10 @@ class CharactersController < ApplicationController
         end
 
         @user = @character.user
-        @user.selected_character_id = @character.id
+        @user.player_data.find_by(:game_id => Game.find_by(:id => @user.selected_game_id)).selected_character_id = @character.id
+        user_player_data = @user.player_data.find_by(:game_id => Game.find_by(:id => @user.selected_game_id))
+        user_player_data.selected_character_id = @character.id
+        user_player_data.save
         @user.save()
 
         redirect_to root_path
@@ -70,11 +74,11 @@ class CharactersController < ApplicationController
         character = Character.find_by(:id => params[:id])
         user = User.find_by(:id => session[:user_id])
         character.destroy
-        if character.id == user.selected_character_id
-            if user.characters.first != nil
-                user.update(selected_character_id: user.characters.first.id)
+        if character.id == user.player_data.find_by(:game_id => @user.selected_game_id).selected_character_id
+            if user.characters.where(:game_id => @user.selected_game_id).first != nil
+                user.player_data.find_by(:game_id => @user.selected_game_id).update(selected_character_id: user.characters.first.id)
             else
-                user.update(selected_character_id: nil)
+                user.player_data.find_by(:game_id => @user.selected_game_id).update(selected_character_id: nil)
             end
         end
     end
@@ -82,7 +86,8 @@ class CharactersController < ApplicationController
     private
 
     def set_character
-        @character = Character.find_by(:id => User.find_by(:id => session[:user_id]).selected_character_id)
+        @user = User.find_by(:id => User.find_by(:id => session[:user_id]))
+        @character = Character.find_by(:id => Game.find_by(:id => @user.selected_game_id).player_data.find_by(:user_id => @user.id).selected_character_id)
     end
 
     def character_params

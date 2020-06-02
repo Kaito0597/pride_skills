@@ -96,7 +96,6 @@
 </div>
 
 <script>
-    mdc.ripple.MDCRipple.attachTo(document.querySelector('#save-btn'));
 
     <% @skills.each do |skill| %>
         $("#<%= skill.id %>-points-invested").on('focusin', function(){

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_23_033535) do
+ActiveRecord::Schema.define(version: 2020_06_01_014245) do
 
   create_table "ability_scores", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "character_id"
@@ -27,7 +27,24 @@ ActiveRecord::Schema.define(version: 2020_05_23_033535) do
     t.integer "level", default: 1
     t.integer "skill_points", default: 0
     t.boolean "jack_of_all_trades", default: false
+    t.bigint "game_id"
+    t.index ["game_id"], name: "index_characters_on_game_id"
     t.index ["user_id"], name: "index_characters_on_user_id"
+  end
+
+  create_table "games", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name"
+    t.string "join_code"
+    t.date "ingame_datetime", default: "2020-06-01"
+  end
+
+  create_table "player_data", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "game_id"
+    t.boolean "is_gamemaster", default: false
+    t.integer "selected_character_id"
+    t.index ["game_id"], name: "index_player_data_on_game_id"
+    t.index ["user_id"], name: "index_player_data_on_user_id"
   end
 
   create_table "skills", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -44,7 +61,7 @@ ActiveRecord::Schema.define(version: 2020_05_23_033535) do
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "username"
     t.string "password_digest"
-    t.integer "selected_character_id"
+    t.string "selected_game_id"
   end
 
 end

@@ -1,22 +1,30 @@
 <div style="display: flex">
-    <% if !@characters.blank? %>
-        <div>
-            <h1 style="text-align: center; font-weight: 600">Skills</h1>
-            <div style="display: flex;">
-                <div id="attributes" style="display: flex; flex-direction: column; justify-content: space-evenly">
+    <div>
+        <div style="display: flex; padding-left: 175px; padding-right: 20px;">
+            <h1 style="font-weight: 600; width: 1000px"><%= @game.name %></h1>
+            <div style="width: 100%; position: relative;">
+                <%= link_to "Change Game", change_game_path, class: "mdc-button mdc-button--raised", style: "position: absolute; right: 0; top: 30%;" %>
+            </div>
+        </div>
+        <div style="display: flex;">
+            <div id="attributes" style="display: flex; flex-direction: column; justify-content: space-evenly">
+                <% if @ability_scores != nil %>
                     <% @ability_scores.each do |ability_score| %>
                         <div style="display: flex; flex-direction: column; align-items: center">
                             <h1 class="attr_head" style="margin: 0;"><%= ability_score.abbreviation %></h1>
                             <h2 style="margin: 0;"><%= ability_score.score %></h2>
                         </div>
                     <% end %>
-                    <div class="btn-grp">
-                        <a id="edit-btn" href="<%= config_path %>" class="mui-btn mui-btn--primary">Edit</a>
-                        <%= link_to "Logout", session_path(@user), method: :delete, id: "logout-btn", class: "mui-btn mui-btn--primary" %>
-                        <%= link_to "About", about_path, :id => "btn", class: "mui-btn mui-btn--primary" %>
-                    </div>
+                <% end %>
+                <div class="btn-grp">
+                    <a id="edit-btn" href="<%= config_path %>" class="mui-btn mui-btn--primary">Edit</a>
+                    <%= link_to "Logout", session_path(@user), method: :delete, id: "logout-btn", class: "mui-btn mui-btn--primary" %>
+                    <%= link_to "Date", ingame_date_path, :id => "btn", class: "mui-btn mui-btn--primary" %>
+                    <!-- <%= link_to "Settings", user_settings_path, :id => "btn", class: "mui-btn mui-btn--primary" %> -->
                 </div>
-                <div class="container" style="width: 1000px; height: 700px; overflow: auto;">
+            </div>
+            <div class="container" style="width: 1000px; height: 700px; overflow: auto;">
+                <% if @skills != nil %>
                     <table class="mui-table">
                         <thead>
                             <tr>
@@ -33,10 +41,16 @@
                             <% end %>
                         </tbody>
                     </table>
+                <% else %>
+                <div style="display: flex; width: 100%; height: 100%; justify-content: center">
+                    <div style="display: flex; height: 100%; flex-direction: column; justify-content: center">
+                        <h3><strong>No Characters</strong></h3>
+                    </div>
                 </div>
+                <% end %>
             </div>
         </div>
-    <% end %>
+    </div>
     <div style="display: flex; flex-direction: column">
         <h1 style="text-align: center; font-weight: 600">Characters</h1>
         <div class='container' style="height: 700px; width: 250px; display: flex; flex-direction: column-reverse">
@@ -44,20 +58,22 @@
                 <div class="mdc-button__ripple"></div>
                 <span class="mdc-button__label">Create Character</span>
             </a>
-            <div style="height: 100%; overflow-y: auto; overflow-x: hidden;">
-                <% @characters.each do |character| %>
-                    <button onClick="changeCharacter(&quot;<%= change_character_path(:id => character.id) %>&quot;)" class="character-item <%= @user.selected_character_id == character.id ? "character-item-current" : nil %>" style="border-radius: 6px; background-color: #e6ebed; width: 95%; margin-right: 5px; padding-top: 15px; margin-bottom: 15px">
-                        <h3 style="margin: 0 15px; font-weight: 500; text-align: left"><%= character.name %></h3>
-                        <div style="display: flex">
-                            <h4 style="margin-left: 15px"><%= character.class_name %></h4>
-                            <h4 style="margin-left: 15px"><%= character.level %></h4>
+            <% if @characters != nil %>
+                <div style="height: 100%; overflow-y: auto; overflow-x: hidden;">
+                    <% @characters.each do |character| %>
+                        <button onClick="changeCharacter(&quot;<%= change_character_path(:id => character.id) %>&quot;)" class="character-item <%= @character.id == character.id ? "character-item-current" : nil %>" style="border-radius: 6px; background-color: #e6ebed; width: 95%; margin-right: 5px; padding-top: 15px; margin-bottom: 15px">
+                            <h3 style="margin: 0 15px; font-weight: 500; text-align: left"><%= character.name %></h3>
+                            <div style="display: flex">
+                                <h4 style="margin-left: 15px"><%= character.class_name %></h4>
+                                <h4 style="margin-left: 15px"><%= character.level %></h4>
+                            </div>
+                        </button>
+                        <div id="character-<%= character.id %>-delete" onClick="showModal()" style="width: 100%; position: relative; bottom: 62px; right: 20px">
+                            <span class="material-icons char-delete" style="margin-top: 10px; float: right; height: 0">delete</span>
                         </div>
-                    </button>
-                    <div id="character-<%= character.id %>-delete" onClick="showModal()" style="width: 100%; position: relative; bottom: 62px; right: 20px">
-                        <span class="material-icons char-delete" style="margin-top: 10px; float: right; height: 0">delete</span>
-                    </div>
-                <% end %>
-            </div>
+                    <% end %>
+                </div>
+            <% end %>
         </div>
     </div>
 </div>

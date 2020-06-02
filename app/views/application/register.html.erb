@@ -5,7 +5,6 @@
       <% if @user.errors.any? %>
         <div id="error_explanation">
           <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
-
           <ul>
             <% @user.errors.full_messages.each do |message| %>
               <li><%= message %></li>
@@ -13,7 +12,6 @@
           </ul>
         </div>
       <% end %>
-
       <div class="mdc-text-field mdc-text-field--outlined">
         <%= form.text_field :username, id: 'username-text-field', class: 'mdc-text-field__input' %>
         <div class="mdc-notched-outline">
@@ -34,18 +32,6 @@
           <div class="mdc-notched-outline__trailing"></div>
         </div>
       </div>
-
-
-      <!-- <div class="field text-field mui-textfield">
-        <%= form.label :username %>
-        <%= form.text_field :username %>
-      </div>
-
-      <div class="field text-field mui-textfield">
-        <%= form.label :password %>
-        <%= form.text_field :password, type: "password" %>
-      </div> -->
-
       <div class="actions">
         <%= form.submit value: "Submit", class: "mui-btn mui-btn--primary", id: "submit-btn" %>
       </div>

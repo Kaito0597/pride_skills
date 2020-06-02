@@ -1,0 +1,63 @@
+<div>
+    <h1 style="text-align: center; font-weight: 600">Welcome</h1>
+    <div class="container" style="display: flex; width: 700px; justify-content: space-around;">
+        <div style="display: flex; flex-direction: column; justify-content: center; width: 300px">
+            <div style="display: flex; flex-direction: column">
+                <h1>Create</h1>
+                <%= form_with(model: @game, local: true, class: "login-form") do |form| %>
+                    <div class="mdc-text-field mdc-text-field--outlined" style="width: 100%">
+                        <%= form.text_field :name, id: "create-game-text-field", class: "mdc-text-field__input"%>
+                        <div class="mdc-notched-outline">
+                            <div class="mdc-notched-outline__leading"></div>
+                            <div class="mdc-notched-outline__notch">
+                            <%= form.label :name, id: "create-game-label", class: "mdc-floating-label", style: "background-color: white; padding-left: 5px; padding-right: 5px;" %>
+                            </div>
+                            <div class="mdc-notched-outline__trailing"></div>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <%= form.submit value: "Create Game", class: "mdc-button mdc-button--raised", style: "width: 100%; margin-top: 15px"%>
+                    </div>
+                <% end %>
+            </div>
+        </div>
+        <h2 style="display: flex; flex-direction: column; justify-content: center;">Or</h2>
+        <div style="display: flex; flex-direction: column; justify-content: center; width: 300px">
+            <div style="display: flex; flex-direction: column">
+                <h1>Join</h1>
+                <div class="mdc-text-field mdc-text-field--outlined">
+                    <input id="join-game-text-field" class="mdc-text-field__input" id="text-field-hero-input">
+                    <div class="mdc-notched-outline">
+                        <div class="mdc-notched-outline__leading"></div>
+                        <div class="mdc-notched-outline__notch">
+                        <label id="join-game-label" style="background-color: white; padding-left: 5px; padding-right: 5px;" for="text-field-hero-input" class="mdc-floating-label">Game Code</label>
+                        </div>
+                        <div class="mdc-notched-outline__trailing"></div>
+                    </div>
+                </div>
+                <button id="join-game-btn" class="mdc-button mdc-button--raised" style="margin-top: 15px">
+                    <span class="mdc-button__ripple"></span> Join Game</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%= javascript_pack_tag 'welcome' %>
+
+<script>
+
+$('#join-game-btn').click(function () {
+    console.log($('#join-game-text-field').val())
+    $.ajax({
+        url: '<%= join_game_path %>',
+        data: {
+            "game_code": $('#join-game-text-field').val()
+        },
+        dataType: 'JSON',
+        success: function () {
+            window.location = "<%= root_path %>"
+        }
+    });
+})
+
+</script>

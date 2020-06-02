@@ -1,0 +1,67 @@
+<% ingame_date = @game.ingame_datetime %>
+
+<div style="width: 100%; text-align: center; display: flex; flex-direction: column; align-items: center;">
+    <h1 id='date' style="font-size: 5em;">
+        <%= ingame_date.strftime("%A, %B #{ingame_date.day.ordinalize} %Y") %>
+    </h1>
+    <div style="display: flex; justify-content: space-evenly; margin-top: 2%; width: 50%">
+        <a class="mdc-button mdc-button--raised" href="<%= root_path %>" style="background-color: #E65100">
+            <div class="mdc-button__ripple"></div>
+            <span class="mdc-button__label">Back</span>
+        </a>
+        <a onclick="decreaseDate()" class="date-select-btn mdc-button mdc-button--raised">
+            <div class="mdc-button__ripple"></div>
+            <span class="mdc-button__label">Previous</span>
+        </a>
+        <input id="change-date" type="text" class="date-select-btn mdc-button mdc-button--raised" style="display: none">
+        <a onclick="increaseDate()" class="date-select-btn mdc-button mdc-button--raised">
+            <div class="mdc-button__ripple"></div>
+            <span class="mdc-button__label">Next</span>
+        </a>
+    </div>
+</div>
+
+<script>
+
+    $('#change-date').datepicker({
+        showOn: "button",
+        buttonText: "Change Date",
+        dateFormat: "yy-mm-dd"
+    }).next(".ui-datepicker-trigger").addClass("date-select-btn date-change-btn mdc-button mdc-button--raised")
+
+    $('#change-date').change(function () {
+        $.ajax({
+            url: '<%= change_date_path(:game_id => @game.id) %>',
+            data: {
+                "date": $(this).val()
+            },
+            dataType: 'JSON',
+            success: function (data, textStatus, jqXHR) {
+                $('#date').html(data['new_date'])
+            }
+        });
+        
+    })
+
+    function increaseDate() {
+        console.log('test')
+        $.ajax({
+            url: '<%= increment_date_path(:game_id => @game.id) %>',
+            dataType: 'JSON',
+            success: function (data, textStatus, jqXHR) {
+                $('#date').html(data['new_date'])
+            }
+        });
+    }
+
+    function decreaseDate() {
+        $.ajax({
+            url: '<%= decrement_date_path(:game_id => @game.id) %>',
+            dataType: 'JSON',
+            success: function (data, textStatus, jqXHR) {
+                $('#date').html(data['new_date'])
+            }
+        });
+    }
+
+</script>

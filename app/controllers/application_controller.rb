@@ -1,46 +1,57 @@
 class ApplicationController < ActionController::Base
 
-    before_action :authorized, :only => [:home, :configuration, :about]
+    before_action :logged_in, :except => [:login, :register, :create]
 
     helper_method :current_user
-    helper_method :logged_in?
 
     def current_user
         User.find_by(id: session[:user_id])
     end
 
-    def logged_in?
-        !current_user.nil?
-    end
-
-    def authorized
-        unless logged_in?
+    def logged_in
+        if session[:user_id] == nil
             redirect_to login_path
         end
     end
 
+    def welcome
+        @game = Game.new()
+    end
+
     def home
         @user = current_user
-        @characters = current_user.characters
+        @game = Game.find_by(:id => @user.selected_game_id)
 
-        if @user.selected_character_id != nil
-            @character = Character.find_by(:id => @user.selected_character_id)
-            @skills = @character.skills
-            @ability_scores = @character.ability_scores
+        if @user.selected_game_id != nil
+            @player_data = @game.player_data.find_by(:user_id => @user.id)
+            @selected_game = Game.find_by(:id => @user.selected_game_id)
+
+            @character = Character.find_by(:id => Game.find_by(:id => @user.selected_game_id).player_data.find_by(:user_id => @user.id).selected_character_id)
+            if @player_data.is_gamemaster
+                @characters = @game.characters
+            else
+                @characters = Character.where(:user_id => @user.id, :game_id => @selected_game.id)
+            end
+
+            if @character != nil
+                @skills = @character.skills
+                @ability_scores = @character.ability_scores
+            end
+        else
+            redirect_to welcome_path
         end
     end
 
     def change_character
         user = current_user
-        user.selected_character_id = params[:id]
-        user.save
+        user.player_data.find_by(:game_id => user.selected_game_id).update(:selected_character_id => params[:id])
         
         redirect_to root_path
     end
 
     def configuration
         @user = current_user
-        @character = Character.find_by(:id => @user.selected_character_id)
+        @character = Character.find_by(:id => @user.player_data.find_by(:game_id => @user.selected_game_id).selected_character_id)
         @skills = @character.skills
         @ability_scores = @character.ability_scores
         @class_dict = {
@@ -62,6 +73,10 @@ class ApplicationController < ActionController::Base
             :Summoner => 2
         }
     end
+
+    def ingame_date
+        @game = Game.find_by(:id => current_user.selected_game_id)
+    end 
 
     def about
     end
