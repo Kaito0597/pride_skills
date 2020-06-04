@@ -1,12 +1,7 @@
 class ApplicationController < ActionController::Base
 
     before_action :logged_in, :except => [:login, :register, :create]
-
-    helper_method :current_user
-
-    def current_user
-        User.find_by(id: session[:user_id])
-    end
+    before_action :set_user
 
     def logged_in
         if session[:user_id] == nil
@@ -19,7 +14,6 @@ class ApplicationController < ActionController::Base
     end
 
     def home
-        @user = current_user
         @game = Game.find_by(:id => @user.selected_game_id)
 
         if @user.selected_game_id != nil
@@ -43,14 +37,12 @@ class ApplicationController < ActionController::Base
     end
 
     def change_character
-        user = current_user
-        user.player_data.find_by(:game_id => user.selected_game_id).update(:selected_character_id => params[:id])
+        @user.player_data.find_by(:game_id => user.selected_game_id).update(:selected_character_id => params[:id])
         
         redirect_to root_path
     end
 
     def configuration
-        @user = current_user
         @character = Character.find_by(:id => @user.player_data.find_by(:game_id => @user.selected_game_id).selected_character_id)
         @skills = @character.skills
         @ability_scores = @character.ability_scores
@@ -86,6 +78,12 @@ class ApplicationController < ActionController::Base
 
     def register
         @user = User.new()
+    end
+
+    private
+    
+    def set_user
+        @user = User.find_by(id: session[:user_id])
     end
 
 end

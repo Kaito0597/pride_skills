@@ -30,6 +30,7 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Score</th>
+                                <th>Bonus</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -37,6 +38,7 @@
                                 <tr>
                                     <td><%= skill.name %></td>
                                     <td><%= skill.score %></td>
+                                    <td><%= skill.score - skill.ability_score.score %></td>
                                 </tr>
                             <% end %>
                         </tbody>

@@ -17,7 +17,6 @@ class GamesController < ApplicationController
             user.update(:selected_game_id => @game.id)
             redirect_to root_path
         end
-
     end
     
     def joinGame
