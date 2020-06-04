@@ -68,7 +68,7 @@ class ApplicationController < ActionController::Base
     end
 
     def ingame_date
-        @game = Game.find_by(:id => current_user.selected_game_id)
+        @game = Game.find_by(:id => @user.selected_game_id)
     end 
 
     def about
