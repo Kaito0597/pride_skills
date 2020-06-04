@@ -38,7 +38,7 @@
                                 <tr>
                                     <td><%= skill.name %></td>
                                     <td><%= skill.score %></td>
-                                    <td><%= skill.score - skill.ability_score.score %></td>
+                                    <td><%= skill.score - ((@character.ability_scores.find_by(:abbreviation => skill.ability_score).score - 10) / 2).floor %></td>
                                 </tr>
                             <% end %>
                         </tbody>

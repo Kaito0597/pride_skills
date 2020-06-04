@@ -37,6 +37,7 @@ class ApplicationController < ActionController::Base
     end
 
     def change_character
+        @user = User.find_by(:id => User.find_by(:id => session[:user_id]))
         @user.player_data.find_by(:game_id => user.selected_game_id).update(:selected_character_id => params[:id])
         
         redirect_to root_path
