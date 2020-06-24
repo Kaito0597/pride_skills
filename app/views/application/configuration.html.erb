@@ -1,3 +1,4 @@
+<!--suppress JSDuplicatedDeclaration -->
 <div>
     <h1 style="text-align: center; font-weight: 600">Configuration</h1>
     <div style="display: flex">
@@ -107,23 +108,23 @@
             var prev = parseInt($(this).data('val'));
             var current = parseInt($(this).val());
 
-            var currentLevel = parseInt($('#char-level').val())
-            var maxRank = Math.ceil(currentLevel / 2) + 2
-            var skillPoints = $('#skill-points')
-            var skillPointsVal = parseInt(skillPoints.val())
-            var jackOfAllTrades = $('#joat_checkbox').is(':checked')
+            var currentLevel = parseInt($('#char-level').val());
+            var maxRank = Math.ceil(currentLevel / 2) + 2;
+            var skillPoints = $('#skill-points');
+            var skillPointsVal = parseInt(skillPoints.val());
+            var jackOfAllTrades = $('#joat_checkbox').is(':checked');
             
-            var abilityScoreVal = parseInt($('#<%= skill.ability_score %>-score').val())
+            var abilityScoreVal = parseInt($('#<%= skill.ability_score %>-score').val());
 
-            var skillScore = $('#<%= skill.id %>-score')
-            var skillScoreVal = parseInt(skillScore.html())
+            var skillScore = $('#<%= skill.id %>-score');
+            var skillScoreVal = parseInt(skillScore.html());
 
-            var skillExpertise = $('#<%= skill.id %>-expertise').is(':checked')
-            var skillProf = $('#<%= skill.id %>-prof').is(':checked')
+            var skillExpertise = $('#<%= skill.id %>-expertise').is(':checked');
+            var skillProf = $('#<%= skill.id %>-prof').is(':checked');
 
-            var expertiseBonus = 0
-            var proficiencyBonus = 0
-            var jackOfAllTradesBonus = 0
+            var expertiseBonus = 0;
+            var proficiencyBonus = 0;
+            var jackOfAllTradesBonus = 0;
             
             if ((current - prev) > skillPointsVal) {
                 $(this).val(prev)
@@ -133,17 +134,17 @@
                     $(this).val(prev)
                 } else {
 
-                    if (prev == 0 && jackOfAllTrades == true) {
+                    if (prev === 0 && jackOfAllTrades === true) {
                         skillScore.html(skillScoreVal - 3)
                     }
 
-                    if (skillProf == true) {
-                        proficiencyBonus = 3
+                    if (skillProf === true) {
+                        proficiencyBonus = 3;
                         if (current > (maxRank - 3)) {
-                            if (prev != (maxRank - 3)) {
+                            if (prev !== (maxRank - 3)) {
                                 skillPoints.val(skillPointsVal + (current - (maxRank - 3)))
                             }
-                            $(this).val(maxRank - 3)
+                            $(this).val(maxRank - 3);
                             current = parseInt($(this).val())
                         } else {
                             if (!isNaN(prev)) {
@@ -156,38 +157,38 @@
                         }
                     }
 
-                    if (skillExpertise == true){
-                        if (skillProf == true) {
+                    if (skillExpertise === true){
+                        if (skillProf === true) {
                             expertiseBonus = Math.trunc((current + 3) / 3)
                         } else {
                             expertiseBonus = Math.trunc(current / 3)
                         }
                     }
                     
-                    console.log(skillProf)
+                    console.log(skillProf);
 
-                    if (current == 0 && jackOfAllTrades == true && skillProf == false) {
+                    if (current === 0 && jackOfAllTrades === true && skillProf === false) {
                         jackOfAllTradesBonus = 3
                     }
 
-                    skillScore.html(Math.floor(((abilityScoreVal - 10) / 2)) + current + proficiencyBonus + expertiseBonus + jackOfAllTradesBonus)
+                    skillScore.html(Math.floor(((abilityScoreVal - 10) / 2)) + current + proficiencyBonus + expertiseBonus + jackOfAllTradesBonus);
 
                     $(this).data('val', $(this).val());
                 }
             }
-        })
+        });
 
         $('#<%= skill.id %>-expertise').change(function () {
             $("#<%= skill.id %>-points-invested").trigger("change");
-        })
+        });
 
         $('#<%= skill.id %>-prof').change(function () {
             $("#<%= skill.id %>-points-invested").trigger("change");
-        })
+        });
 
         $('#joat_checkbox').change(function () {
             $("#<%= skill.id %>-points-invested").trigger("change");
-        })
+        });
 
     <% end %>
 
@@ -198,12 +199,12 @@
                     $("#<%= skill.id %>-points-invested").trigger("change");
                 <% end %>
             <% end %>
-        })
+        });
     <% end %>
 
     $('#save-btn').click(function () {
         $(this).prop("disabled",true);
-        $(this).html("Saving...")
+        $(this).html("Saving...");
         var patch = {
             <% @skills.each do |skill| %>
                 "<%= skill.name %>-score": $('#<%= skill.id %>-score').html(),
@@ -218,7 +219,7 @@
             "SkillPoints": $('#skill-points').val(),
             "Level": $('#char-level').val(),
             "joat": $('#joat_checkbox').is(':checked')
-        }
+        };
 
         $.ajax({
             type: 'PATCH',
@@ -229,7 +230,7 @@
                 window.location = "<%= root_path %>"
             }
         });
-    })
+    });
 
     function updateClassLabel(name) {
         document.getElementById("class-header").innerHTML = name
@@ -244,13 +245,12 @@
         var current = $(this).val();
 
         <% @class_dict.each do |name, bonus| %>
-            if ($('#class-header').html() == "<%= name.to_s.underscore.humanize.titleize %>") {
-                $('#skill-points').val(parseInt($('#skill-points').val()) + (<%= bonus %> * (current - prev)))
+            if ($('#class-header').html() === "<%= name.to_s.underscore.humanize.titleize %>") {
+                let skillPoints = $('#skill-points');
+                skillPoints.val(parseInt(skillPoints.val()) + (parseInt(<%= bonus %>) * (current - prev)))
             }
         <% end %>
-
         $(this).data('val', $(this).val());
-
     })
 
 </script>

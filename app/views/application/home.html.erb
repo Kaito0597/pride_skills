@@ -17,11 +17,14 @@
                     <% end %>
                 <% end %>
                 <div class="btn-grp">
-                    <a id="edit-btn" href="<%= config_path %>" class="mui-btn mui-btn--primary">Edit</a>
+                    <%= link_to "Edit", config_path, :id => "btn", class: "mui-btn mui-btn--primary", :style => "background-color: #0D47A1" %>
+<!--                    <a id="edit-btn" href="<%#= config_path %>" class="mui-btn mui-btn--primary">Edit</a>-->
                     <%= link_to "Logout", session_path(@user), method: :delete, id: "logout-btn", class: "mui-btn mui-btn--primary" %>
                     <%= link_to "Date", ingame_date_path, :id => "btn", class: "mui-btn mui-btn--primary" %>
                     <%= link_to "About", about_path, :id => "btn", class: "mui-btn mui-btn--primary" %>
-                    <!-- <%= link_to "Settings", user_settings_path, :id => "btn", class: "mui-btn mui-btn--primary" %> -->
+                    <% if @user.is_admin %>
+                      <%= link_to "Admin Panel", "#", :id => "btn", class: "mui-btn mui-btn--primary" %>
+                    <% end %>
                 </div>
             </div>
             <div class="container" style="width: 1000px; height: 700px; overflow: auto;">
@@ -64,7 +67,7 @@
             <% if @characters != nil %>
                 <div style="height: 100%; overflow-y: auto; overflow-x: hidden;">
                     <% @characters.each do |character| %>
-                        <button onClick="changeCharacter(&quot;<%= change_character_path(:id => character.id) %>&quot;)" class="character-item <%= @character.id == character.id ? "character-item-current" : nil %>" style="border-radius: 6px; background-color: #e6ebed; width: 95%; margin-right: 5px; padding-top: 15px; margin-bottom: 15px">
+                        <button onClick="changeCharacter('<%= change_character_path(:id => character.id) %>')" class="character-item <%= @character.id == character.id ? "character-item-current" : nil %>" style="border-radius: 6px; background-color: #e6ebed; width: 95%; margin-right: 5px; padding-top: 15px; margin-bottom: 15px">
                             <h3 style="margin: 0 15px; font-weight: 500; text-align: left"><%= character.name %></h3>
                             <div style="display: flex">
                                 <h4 style="margin-left: 15px"><%= character.class_name %></h4>
@@ -97,7 +100,7 @@
           <div class="mdc-button__ripple"></div>
           <span class="mdc-button__label">Cancel</span>
         </button>
-        <button onClick="deleteCharacter(&quot;<%= character_path(:id => character.id) %>&quot;)" style="font-weight: 500" id="modal-confirm-btn-<%= character.id %>" type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="discard">
+        <button onClick="deleteCharacter('<%= character_path(:id => character.id) %>')" style="font-weight: 500" id="modal-confirm-btn-<%= character.id %>" type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="discard">
           <div class="mdc-button__ripple"></div>
           <span class="mdc-button__label">Delete</span>
         </button>

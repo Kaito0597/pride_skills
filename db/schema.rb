@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_01_014245) do
+ActiveRecord::Schema.define(version: 2020_06_24_202033) do
 
   create_table "ability_scores", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "character_id"
@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 2020_06_01_014245) do
     t.string "username"
     t.string "password_digest"
     t.string "selected_game_id"
+    t.boolean "is_admin", default: false
   end
 
 end
