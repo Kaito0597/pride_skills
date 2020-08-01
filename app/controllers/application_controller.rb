@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
 
-    before_action :logged_in, :except => [:login, :register, :create]
+    before_action :logged_in, :except => [:login, :register, :create, :johnny]
     before_action :set_user
 
     def logged_in
@@ -79,6 +79,9 @@ class ApplicationController < ActionController::Base
 
     def register
         @user = User.new()
+    end
+
+    def johnny
     end
 
     private

@@ -24,4 +24,6 @@ Rails.application.routes.draw do
   get '/settings', controller: 'users', action: 'settings', as: 'user_settings'
   get '/change_game', controller: 'games', action: 'change_game', as: 'change_game'
 
+  get '/johnny', controller: 'application', action: 'johnny', as: 'johnny'
+
 end
