@@ -14,13 +14,13 @@ default: &default
   encoding: utf8mb4
 #  pool: <%#= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   host: 192.168.1.102
+#  username: <%#= Rails.application.credentials.mysql[:username] %>
+#  password: <%#= Rails.application.credentials.mysql[:password] %>
 #  socket: /var/run/mysqld/mysqld.sock
 
 development:
   <<: *default
   database: pride_skills_development
-  username: <%= Rails.application.credentials.mysql[:username] %>
-  password: <%= Rails.application.credentials.mysql[:password] %>
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
